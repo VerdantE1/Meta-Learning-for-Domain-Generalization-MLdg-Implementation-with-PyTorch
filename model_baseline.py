@@ -2,35 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from layers import GraphConvolution, Linear
-from utils import generate_cheby_adj, normalize_A
-
-
-
-class CommonFeatureExtractor(nn.Module):
-    def __init__(self, input_dim=310, hidden_dim=64):
-        super(CommonFeatureExtractor, self).__init__()
-        self.fc1 = nn.Linear(input_dim, hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, 32)
-        self.leaky_relu = nn.LeakyReLU(negative_slope=0.01)
-
-    def forward(self, x):
-        x = self.leaky_relu(self.fc1(x))
-        x = self.leaky_relu(self.fc2(x))
-        return x
-
-class DomainSpecificFeatureExtractor(nn.Module):
-    def __init__(self, input_dim=32):
-        super(DomainSpecificFeatureExtractor, self).__init__()
-        self.fc = nn.Linear(input_dim, 32)
-        self.leaky_relu = nn.LeakyReLU(negative_slope=0.01)
-
-    def forward(self, x):
-        return self.leaky_relu(self.fc(x))
-
-
-
-
 class BaselineMLP(nn.Module):
     def __init__(self, input_dim=310, hidden_dim1=128,hidden_dim2=64, hidden_dim3=32, num_classes=3):
         super(BaselineMLP, self).__init__()

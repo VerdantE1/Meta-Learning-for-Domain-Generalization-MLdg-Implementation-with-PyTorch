@@ -9,9 +9,7 @@ from sklearn.model_selection import train_test_split
 import os
 from scipy import io as scio
 from scipy.stats import zscore
-from utils import set_seed
 from torch.utils.data import DataLoader, TensorDataset
-from utils import feature_wise_channel_normalization
 
 # 设置设备
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -212,8 +210,7 @@ def meta_train_mldg_loso(all_tasks, num_iterations, inner_lr, inner_steps, beta,
         print(f"\n===== 开始进行 LOSO 测试：任务 {test_task_idx + 1}/{len(all_tasks)} =====")
 
         # 重置模型和优化器
-        from model_Baseline import BaselineMLP
-        #from model import DynamicGCN_DNN
+        from model_baseline import BaselineMLP
         meta_model = l2l.algorithms.MAML(BaselineMLP().to(device), lr=inner_lr)
         #meta_model = l2l.algorithms.MAML(DynamicGCN_DNN().to(device), lr=inner_lr)
         meta_optimizer = optim.Adam(meta_model.parameters(), lr=0.005, weight_decay=0.0004)
@@ -275,18 +272,12 @@ def main():
     num_meta_val_domains = 3 # 虚拟测试V个数
     eval_interval = 15
 
-    # 定义模型
-    xdim = [128, 62, 5]
-    k_adj = 40
-    num_out = 64
-
-
     # 构建任务数据集
     all_tasks = []
     for filename in file_list:  # 使用部分被试作为训练任务
         file_path = os.path.join(data_dir, filename)
         data, labels = load_DE_SEED(file_path)
-        data = feature_wise_channel_normalization(data)
+
 
         if len(data) > 1:  # 确保数据足够
             # 同步随机打乱 data 和 labels
