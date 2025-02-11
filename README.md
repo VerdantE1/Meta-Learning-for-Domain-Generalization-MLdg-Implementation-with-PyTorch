@@ -3,7 +3,7 @@
 ## 项目简介
 
 本项目实现了元学习算法 MLdg，使用 PyTorch 和 l2l 框架。当前 GitHub 上大多数 MLdg 实现采用 TensorFlow，且部分Pytorch实现存在错误。该项目旨在提供一个正确的 PyTorch 实现，以展示 MLdg 算法的有效性和应用。此外，项目中还包含了MAML算法实现，以及我的一些对MLDG的改进想法MLDG_Queue，具体内容可在 `backup` 目录中找到。
-本项目仅实现自监督学习方式，强化学习暂未实现；
+**本项目仅实现自监督学习方式，强化学习暂未实现**；
 
 ## 论文参考
 [Learning to Generalize: Meta-Learning for Domain Generalization](https://ojs.aaai.org/index.php/AAAI/article/view/11596)
